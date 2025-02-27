@@ -14,37 +14,39 @@ public class PlayerBuildingRoadState : PlayerState
     public override void OnConfirmAction()
     {
         base.OnConfirmAction();
-        this.buildingManager.ConfirmPlacement();
+        this.buildingManager.ConfirmModification();
     }
 
     public override void EnterState(string structureName)
     {
         base.EnterState(structureName);
         this.structureName = structureName;
+        this.buildingManager.PrepareBuildingManager(this.GetType());
     }
 
     public override void OnInputPointerDown(Vector3 position)
     {
         Debug.Log("Road Built");
-        buildingManager.PlaceStructureAt(position, this.structureName, StructureType.Road);
+        buildingManager.PrepareStructureForPlacement(position, this.structureName, StructureType.Road);
     }
 
     public override void OnBuildArea(string structureName)
     {
 
         base.OnBuildArea(structureName);
-        this.buildingManager.CancelPlacement();
+        
+        this.buildingManager.CancelModification();
     }
 
     public override void OnBuildSingleStructure(string structureName)
     {
         base.OnBuildSingleStructure(structureName);
-        this.buildingManager.CancelPlacement();
+        this.buildingManager.CancelModification();
     }
 
     public override void OnCancel()
     {
-        this.buildingManager.CancelPlacement();
+        this.buildingManager.CancelModification();
         this.gameManager.TransitionToState(this.gameManager.selectionState, null);
     }
 }

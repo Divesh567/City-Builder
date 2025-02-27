@@ -46,11 +46,17 @@ public class GridStructure
         throw new IndexOutOfRangeException("No index " + cellIndex + " in grid");
     }
 
-    public void PlaceStructureOnTheGrid(GameObject structure, Vector3 gridPosition)
+    public void PlaceStructureOnTheGrid(GameObject structure, Vector3 gridPosition, StructureBaseSO structureData)
     {
         var cellIndex = CalculateGridIndex(gridPosition);
         if (CheckIndexValidity(cellIndex))
-            grid[cellIndex.y, cellIndex.x].SetConstruction(structure);
+            grid[cellIndex.y, cellIndex.x].SetConstruction(structure, structureData);
+    }
+
+    public StructureBaseSO GetStructureDataFromTheGrid(Vector3 gridPosition)
+    {
+        var cellIndex = CalculateGridIndex(gridPosition);
+        return grid[cellIndex.y, cellIndex.x].GetStructureData();
     }
 
     public GameObject GetStructureFromTheGrid(Vector3 gridPosition)
@@ -71,4 +77,40 @@ public class GridStructure
             return true;
         return false;
     }
+
+    public Vector3Int? GetPositionOfTheNeighbourIfExists(Vector3 gridPosition, Direction direction)
+    {
+        Vector3Int? neighbourPosition = Vector3Int.FloorToInt(gridPosition);
+        switch (direction)
+        {
+            case Direction.Up:
+                neighbourPosition += new Vector3Int(0, 0, cellSize);
+                break;
+            case Direction.Right:
+                neighbourPosition += new Vector3Int(cellSize, 0, 0);
+                break;
+            case Direction.Down:
+                neighbourPosition += new Vector3Int(0, 0, -cellSize);
+                break;
+            case Direction.Left:
+                neighbourPosition += new Vector3Int(-cellSize, 0, 0);
+                break;
+        }
+        var index = CalculateGridIndex(neighbourPosition.Value);
+        if (CheckIndexValidity(index) == false)
+        {
+            return null;
+        }
+        return neighbourPosition;
+    }
+
+    public enum Direction
+    {
+        Up = 1,
+        Right = 2,
+        Down = 4,
+        Left = 8
+    }
 }
+
+

@@ -72,10 +72,26 @@ public class StructureRepository : MonoBehaviour
         }
         return null;
     }
+
+    public StructureBaseSO GetStructureData(string structureName, StructureType structureType)
+    {
+        switch (structureType)
+        {
+            case StructureType.Zone:
+                return modelDataCollection.zonesList.Where(structure => structure.buildingName == structureName).FirstOrDefault();
+            case StructureType.SingleStructure:
+                return modelDataCollection.singleStructureList.Where(structure => structure.buildingName == structureName).FirstOrDefault();
+            case StructureType.Road:
+                return modelDataCollection.roadStructure;
+            default:
+                throw new Exception("No such type. not implemented for " + structureType);
+        }
+    }
 }
 
 public enum StructureType
 {
+    None,
     Zone,
     SingleStructure,
     Road
