@@ -6,13 +6,11 @@ using UnityEngine.EventSystems;
 
 public class InputManager : MonoBehaviour, IInputManager
 {
-
-    private Action<Vector3> OnPointerDownHandler;
-    private Action<Vector3> OnPointerChangeHandler;
-    private Action OnPointerUpHandler;
-
     private Action<Vector3> OnPointerSecondChangeHandler;
     private Action OnPointerSecondUpHandler;
+    private Action<Vector3> OnPointerDownHandler;
+    private Action OnPointerUpHandler;
+    private Action<Vector3> OnPointerChangeHandler;
 
     public LayerMask mouseInputMask;
 
@@ -30,8 +28,9 @@ public class InputManager : MonoBehaviour, IInputManager
         if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             CallActionOnPointer((position) => OnPointerDownHandler?.Invoke(position));
+
         }
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             CallActionOnPointer((position) => OnPointerChangeHandler?.Invoke(position));
         }
@@ -89,12 +88,12 @@ public class InputManager : MonoBehaviour, IInputManager
         OnPointerDownHandler -= listener;
     }
 
-    public void AddListenerOnPointerSecondChangeEvent(Action<Vector3> listener)
+    public void AddListenerOnPointerSecondDownEvent(Action<Vector3> listener)
     {
         OnPointerSecondChangeHandler += listener;
     }
 
-    public void RemoveListenerOnPointerSecondDownEvent(Action<Vector3> listener)
+    public void RemoveListenerOnPointerSecondChangeEvent(Action<Vector3> listener)
     {
         OnPointerSecondChangeHandler -= listener;
     }
@@ -109,23 +108,22 @@ public class InputManager : MonoBehaviour, IInputManager
         OnPointerSecondUpHandler -= listener;
     }
 
+    public void AddListenerOnPointerUpEvent(Action listener)
+    {
+        OnPointerUpHandler += listener;
+    }
+    public void RemoveListenerOnPointerUpEvent(Action listener)
+    {
+        OnPointerUpHandler -= listener;
+    }
+
     public void AddListenerOnPointerChangeEvent(Action<Vector3> listener)
     {
         OnPointerChangeHandler += listener;
     }
 
-    public void AddListenerOnPointerUpEvent(Action listener)
-    {
-        OnPointerUpHandler += listener;
-    }
-
     public void RemoveListenerOnPointerChangeEvent(Action<Vector3> listener)
     {
         OnPointerChangeHandler -= listener;
-    }
-
-    public void RemoveListenerOnPointerUpEvent(Action listener)
-    {
-        OnPointerUpHandler -= listener;
     }
 }

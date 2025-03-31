@@ -11,8 +11,8 @@ public class UiController : MonoBehaviour
     private Action<string> OnBuildSingleStructureHandler;
     private Action<string> OnBuildRoadHandler;
 
-    private Action OnConfirmActionHandler;
     private Action OnCancleActionHandler;
+    private Action OnConfirmActionHandler;
     private Action OnDemolishActionHandler;
 
     public StructureRepository structureRepository;

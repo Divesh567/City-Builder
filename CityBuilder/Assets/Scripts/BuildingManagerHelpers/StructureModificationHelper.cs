@@ -49,6 +49,10 @@ public abstract class StructureModificationHelper
         }
     }
 
+    public virtual void StopContinuousPlacement()
+    {
+
+    }
     protected void ResetHelpersData()
     {
         structureData = null;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
@@ -57,6 +58,20 @@ public class GridStructure
     {
         var cellIndex = CalculateGridIndex(gridPosition);
         return grid[cellIndex.y, cellIndex.x].GetStructureData();
+    }
+
+    public HashSet<Vector3Int> GetAllPositionsFromTo(Vector3Int minPoint, Vector3Int maxPoint)
+    {
+        HashSet<Vector3Int> positionsToReturn = new HashSet<Vector3Int>();
+        for (int row = minPoint.z; row <= maxPoint.z; row++)
+        {
+            for (int col = minPoint.x; col <= maxPoint.x; col++)
+            {
+                Vector3 gridPositon = CalculateGridPosition(new Vector3(col, 0, row));
+                positionsToReturn.Add(Vector3Int.FloorToInt(gridPositon));
+            }
+        }
+        return positionsToReturn;
     }
 
     public GameObject GetStructureFromTheGrid(Vector3 gridPosition)

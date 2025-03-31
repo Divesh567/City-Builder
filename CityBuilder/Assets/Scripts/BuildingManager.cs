@@ -10,6 +10,7 @@ public class BuildingManager
     StructureRepository structureRepository;
     Dictionary<Vector3Int, GameObject> structuresToBeModified = new Dictionary<Vector3Int, GameObject>();
     StructureModificationFactory helperFactory;
+
     StructureModificationHelper helper;
     public BuildingManager(int cellSize, int width, int length, PlacementManager placementManager, StructureRepository structureRepository)
     {
@@ -46,7 +47,10 @@ public class BuildingManager
         helper.PrepareStructureForModification(inputPosition, "", StructureType.None);
     }
 
-   
+    public void StopContinuousPlacement()
+    {
+        helper.StopContinuousPlacement();
+    }
 
     public GameObject CheckForStructureInGrid(Vector3 inputPosition)
     {

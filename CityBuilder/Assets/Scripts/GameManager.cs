@@ -77,16 +77,15 @@ public class GameManager : MonoBehaviour
         uiController.AddListenerOnBuildRoadEvent((structureName) => state.OnBuildRoad(structureName));
         uiController.AddListenerOnCancleActionEvent(() => state.OnCancel());
         uiController.AddListenerOnDemolishActionEvent(() => state.OnDemolishAction());
-
+        uiController.AddListenerOnConfirmActionEvent(() => state.OnConfirmAction());
     }
-
     private void AssignInputListeners()
     {
         inputManager.AddListenerOnPointerDownEvent((position) => state.OnInputPointerDown(position));
-        inputManager.AddListenerOnPointerSecondChangeEvent((position) => state.OnInputPanChange(position));
+        inputManager.AddListenerOnPointerSecondDownEvent((position) => state.OnInputPanChange(position));
         inputManager.AddListenerOnPointerSecondUpEvent(() => state.OnInputPanUp());
         inputManager.AddListenerOnPointerChangeEvent((position) => state.OnInputPointerChange(position));
-        uiController.AddListenerOnConfirmActionEvent(() => state.OnConfirmAction());
+        inputManager.AddListenerOnPointerUpEvent(() => state.OnInputPointerUp());
     }
 
     public void TransitionToState(PlayerState newState, string variable)
